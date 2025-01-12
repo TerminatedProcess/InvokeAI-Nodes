@@ -87,9 +87,9 @@ the same system you run InvokeAI on.
 1. Activate the InvokeAI virtual environment ("developer's console")
    using the `invoke.bat` script, or manually.
    
-2. Install the `ollama` and `langchain-community` modules:
+2. Install the `ollama` module:
    ```
-   pip install ollama langchain-community
+   pip install ollama==0.3.3
    ```
 
 3. Install the `gnokit/improve-prompt` model:
@@ -150,9 +150,9 @@ the same system you run InvokeAI on.
 1. Activate the InvokeAI virtual environment ("developer's console")
    using the `invoke.bat` script, or manually.
    
-2. Install the `ollama` and `langchain-community` modules:
+2. Install the `ollama` module:
    ```
-   pip install ollama langchain-community
+   pip install ollama==0.3.3
    ```
 
 3. Install the `llava` model:

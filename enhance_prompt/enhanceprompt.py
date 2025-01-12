@@ -101,8 +101,9 @@ class EnhancePromptInvocation(BaseInvocation):
         if not SYSTEM_MESSAGE[self.verbosity]:
             return EnhancePromptOutput(enhanced_prompt=user_input)
 
-        kwargs: dict[str, str|int] = {"keep_alive": 0} if self.offload_from_gpu else {}
+        kwargs: dict[str, str|int|None] = {"keep_alive": 0} if self.offload_from_gpu else {}
         kwargs["system"] = SYSTEM_MESSAGE[self.verbosity]
-        llm = ollama_settings.get_model(model=self.model, **kwargs)
-        response = llm.invoke(user_input)
-        return EnhancePromptOutput(enhanced_prompt=response.strip())
+        response = ollama_settings.ollama.generate(model=self.model,
+                                                   prompt=user_input,
+                                                   **kwargs)
+        return EnhancePromptOutput(enhanced_prompt=response['response'].strip())

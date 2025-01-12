@@ -65,7 +65,6 @@ class DescribeImageInvocation(BaseInvocation):
             return DescribeImageOutput(value="")
 
         kwargs = {"keep_alive": 0} if self.offload_from_gpu else {}
-        llm = ollama_settings.get_model(model=self.model, **kwargs)
 
         # convert the image into a PNG, base64 encode it, and convert to string
         image = context.images.get_pil(self.image.image_name)
@@ -73,11 +72,9 @@ class DescribeImageInvocation(BaseInvocation):
         image.save(img_bytes, format="PNG")
         image_data = base64.b64encode(img_bytes.getvalue()).decode("utf-8")
 
-        response = llm.invoke(
-            ollama_settings.prompt_prefix,
-            images=[
-                image_data,
-            ],
-        )
-
-        return DescribeImageOutput(description=response.strip())
+        response = ollama_settings.ollama.generate(model=self.model,
+                                                   prompt=ollama_settings.prompt_prefix,
+                                                   images=[image_data],
+                                                   **kwargs)
+                                                   
+        return DescribeImageOutput(description=response['response'].strip())
